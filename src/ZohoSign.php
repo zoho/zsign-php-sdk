@@ -33,7 +33,7 @@ abstract class ZohoSign{
 
 	static private $downloadPath = null;
 
-	const ALL 		= "_ALL";				// dummy
+	const ALL 		= "_ALL";				// key valid in sdk only
 	const SHREDDED	= "shredded";
 	const ARCHIVED	= "archived";
 	const DELETED 	= "deleted";
@@ -46,7 +46,7 @@ abstract class ZohoSign{
 	const EXPIRED 	= "expired";
 	const EXPIRING 	= "expiring";
 
-	const MY_REQUESTS = "_MY_REQUESTS";		// dummy
+	const MY_REQUESTS = "_MY_REQUESTS";		// key valid in sdk only
 	const MY_PENDING  = "my_pending";
 
 

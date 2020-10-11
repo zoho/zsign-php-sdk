@@ -5,9 +5,9 @@ This SDK provides wrapper functions for Zoho Sign v1 API Document Management and
 You can setup signing workflows using this SDK similar as in Zoho Sign UI.
 
 Links :
-[Zoho Sign API Guide]()
+[Zoho Sign API Guide](https://www.zoho.com/sign/api/getting-started-guide/overview.html)
 &
-[Zoho Sign API Documentation]()
+[Zoho Sign API Documentation](https://www.zoho.com/sign/api/)
 
 Environment Set Up
 ------------------
@@ -44,7 +44,7 @@ Here's how you install the SDK:
 1) Navigate to the workspace of your client app
 2) Run the command below: 
 
->composer require zohosign/php-sdk
+>composer require zoho-sign/php-sdk
 
 Hence, the PHP SDK would be installed and a package named 'vendor' would be created in the workspace of your client app.
 
@@ -399,11 +399,11 @@ Below examples are assuming ZohoSign::currentUser is set.
     $template = ZohoSign::getTemplate( 2000002608137 );
   
     $template->setPrefillBooleanField	( "Premium Partner", true );
-    $template->setPrefillTextField 		( "Company", "Incredibles Inc" );
-    $template->setPrefillDateField		( "Date", "08 July 2020" );
+    $template->setPrefillTextField ( "Company", "Incredibles Inc" );
+    $template->setPrefillDateField ( "Date", "08 July 2020" );
   
-    $template->getActionByRole("Partner")->setRecipientName("kalai");
-    $template->getActionByRole("Partner")->setRecipientEmail("kalaiarasan.r+1@zohocorp.com");
+    $template->getActionByRole("Partner")->setRecipientName("John");
+    $template->getActionByRole("Partner")->setRecipientEmail("john@incredibles.com");
 
     $resp_obj = ZohoSign::sendTemplate( $template, false );
 ```
