@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\Sign\sdk\src\api;
+namespace zsign\api;
 
 class Documents
 { 

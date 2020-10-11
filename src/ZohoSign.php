@@ -1,30 +1,30 @@
 <?php
 
-namespace Zoho\Sign\sdk\src;
+namespace zsign;
 
-use Zoho\Sign\sdk\src\OAuth;
-use Zoho\Sign\sdk\src\ApiClient;
-use Zoho\Sign\sdk\src\SignException;
-use Zoho\Sign\sdk\src\SignUtil;
-use Zoho\Sign\sdk\src\api\Actions;
-use Zoho\Sign\sdk\src\api\Documents;
-use Zoho\Sign\sdk\src\api\Fields;
-use Zoho\Sign\sdk\src\api\PageContext;
-use Zoho\Sign\sdk\src\api\PrefillField;
-use Zoho\Sign\sdk\src\api\RequestObject;
-use Zoho\Sign\sdk\src\api\RequestType;
-use Zoho\Sign\sdk\src\api\TemplateDocumentFields;
-use Zoho\Sign\sdk\src\api\TemplateObject;
-use Zoho\Sign\sdk\src\api\fields\AttachmentField;
-use Zoho\Sign\sdk\src\api\fields\CheckBox;
-use Zoho\Sign\sdk\src\api\fields\DateField;
-use Zoho\Sign\sdk\src\api\fields\DropdownField;
-use Zoho\Sign\sdk\src\api\fields\DropdownValues;
-use Zoho\Sign\sdk\src\api\fields\ImageField;
-use Zoho\Sign\sdk\src\api\fields\RadioField;
-use Zoho\Sign\sdk\src\api\fields\RadioGroup;
-use Zoho\Sign\sdk\src\api\fields\TextField;
-use Zoho\Sign\sdk\src\api\fields\TextProperty;
+use zsign\OAuth;
+use zsign\ApiClient;
+use zsign\SignException;
+use zsign\SignUtil;
+use zsign\api\Actions;
+use zsign\api\Documents;
+use zsign\api\Fields;
+use zsign\api\PageContext;
+use zsign\api\PrefillField;
+use zsign\api\RequestObject;
+use zsign\api\RequestType;
+use zsign\api\TemplateDocumentFields;
+use zsign\api\TemplateObject;
+use zsign\api\fields\AttachmentField;
+use zsign\api\fields\CheckBox;
+use zsign\api\fields\DateField;
+use zsign\api\fields\DropdownField;
+use zsign\api\fields\DropdownValues;
+use zsign\api\fields\ImageField;
+use zsign\api\fields\RadioField;
+use zsign\api\fields\RadioGroup;
+use zsign\api\fields\TextField;
+use zsign\api\fields\TextProperty;
 
 abstract class ZohoSign{
 

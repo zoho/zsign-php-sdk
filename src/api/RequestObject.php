@@ -1,9 +1,9 @@
 <?php
 
-namespace Zoho\Sign\sdk\src\api;
+namespace zsign\api;
 
-use Zoho\Sign\sdk\src\api\Actions;
-use Zoho\Sign\sdk\src\api\Documents;
+use zsign\api\Actions;
+use zsign\api\Documents;
 
 class RequestObject
 { 

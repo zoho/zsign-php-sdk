@@ -1,8 +1,8 @@
 <?php
 
-namespace Zoho\Sign\sdk\src\api;
+namespace zsign\api;
 
-use Zoho\Sign\sdk\src\SignException;
+use zsign\SignException;
 
 
 class PrefillField{

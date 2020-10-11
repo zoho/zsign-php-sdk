@@ -1,9 +1,9 @@
 <?php
 
-namespace Zoho\Sign\sdk\src;
+namespace zsign;
 
-use Zoho\Sign\sdk\src\OAuth;
-use Zoho\Sign\sdk\src\ZohoSign;
+use zsign\OAuth;
+use zsign\ZohoSign;
 
 abstract class ApiClient{
         
@@ -216,7 +216,9 @@ abstract class ApiClient{
             $httpObject->url              = $URL;
             $httpObject->method           = $method;
             $httpObject->request_headers  = $HEADERS;
-            $httpObject->response_headers = $mediaName;
+            if( isset($mediaName) ){
+                $httpObject->response_headers = $mediaName;
+            }
 
             return $httpObject;
         }

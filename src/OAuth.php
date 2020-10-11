@@ -1,9 +1,9 @@
 <?php
 
-namespace Zoho\Sign\sdk\src;
+namespace zsign;
 
-use Zoho\Sign\sdk\src\SignException;
-use Zoho\Sign\sdk\src\ApiClient;
+use zsign\SignException;
+use zsign\ApiClient;
 
 class OAuth {
 
@@ -42,37 +42,56 @@ class OAuth {
 
 	function __construct( $arr ) {
 
-		foreach ($arr as $key => $value) {
-			switch( strtoupper($key) ){
-				case self::CLIENT_ID : 
-					$this->client_id = $value;
-					break;
-				case self::CLIENT_SECRET : 
-					$this->client_secret = $value;
-					break;
-				case self::REDIRECT_URI : 
-					$this->redirect_uri = $value;
-					break;
-				case self::SCOPE : 
-					$this->scope = $value;
-					break;
-				case self::ACCESS_TYPE : 
-					$this->access_type = $value;
-					break;
-				case self::ACCESS_TOKEN : 
-					$this->access_token = $value;
-					break;
-				case self::REFRESH_TOKEN : 
-					$this->refresh_token = $value;
-					break;
-				case self::DC :
-					if( array_key_exists($value, self::DC_type ) ){
-						$this->DC =  $value;
-					}else{
-			 			throw new SignException("Invalid DC type", -1);
-					}
-			}
+		if( isset($arr[self::CLIENT_ID]) ){
+			$this->client_id = $arr[self::CLIENT_ID];
+		}else{
+			throw new SignException("Client ID not set", -1);
 		}
+
+
+		if( isset($arr[self::CLIENT_SECRET]) ){
+			$this->client_secret = $arr[self::CLIENT_SECRET];
+		}else{
+			throw new SignException("Client Secret not set", -1);
+		}
+
+
+		if( isset($arr[self::REDIRECT_URI]) ){
+			$this->redirect_uri = $arr[self::REDIRECT_URI];
+		}
+
+		if( isset($arr[self::SCOPE]) ){
+			$this->scope = $arr[self::SCOPE];
+		}
+
+
+		if( isset($arr[self::ACCESS_TYPE]) ){
+			$this->access_type = $arr[self::ACCESS_TYPE];
+		}
+
+
+		if( isset($arr[self::ACCESS_TOKEN]) ){
+			$this->access_token = $arr[self::ACCESS_TOKEN];
+		}
+
+
+		if( isset($arr[self::REFRESH_TOKEN]) ){
+			$this->refresh_token = $arr[self::REFRESH_TOKEN];
+		}else{
+			throw new SignException("Refresh Token not set", -1);
+		}
+
+
+		if( isset($arr[self::DC]) ){
+			if( array_key_exists( $arr[self::DC], self::DC_type ) ){
+				$this->DC =  $arr[self::DC];
+			}else{
+	 			throw new SignException("Invalid DC type", -1);
+			}
+		}else{
+			throw new SignException("DC type(TLD) not set not set", -1);
+		}
+
 	}
 
 	public function getDC(){

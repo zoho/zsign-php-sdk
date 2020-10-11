@@ -1,8 +1,8 @@
 <?php
 
-namespace Zoho\Sign\sdk\src\api;
+namespace zsign\api;
 
-use Zoho\Sign\sdk\src\api\Fields;
+use zsign\api\Fields;
 
 class Actions
 { 

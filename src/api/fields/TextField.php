@@ -1,8 +1,8 @@
 <?php
 
-namespace Zoho\Sign\sdk\src\api\fields;
+namespace zsign\api\fields;
 
-use Zoho\Sign\sdk\src\api\fields\TextProperty;
+use zsign\api\fields\TextProperty;
 
 class TextField
 { 

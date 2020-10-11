@@ -1,13 +1,13 @@
 <?php
 
-namespace Zoho\Sign\sdk\src\api;
+namespace zsign\api;
 
 
-use Zoho\Sign\sdk\src\SignException;
-use Zoho\Sign\sdk\src\api\Actions;
-use Zoho\Sign\sdk\src\api\Documents;
-use Zoho\Sign\sdk\src\api\PrefillField;
-use Zoho\Sign\sdk\src\api\TemplateDocumentFields;
+use zsign\SignException;
+use zsign\api\Actions;
+use zsign\api\Documents;
+use zsign\api\PrefillField;
+use zsign\api\TemplateDocumentFields;
 
 
 class TemplateObject

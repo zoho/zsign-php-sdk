@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\Sign\sdk\src;
+namespace zsign;
 
 
 class SignException extends \Exception {

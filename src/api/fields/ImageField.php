@@ -1,6 +1,6 @@
 <?php
 
-namespace Zoho\Sign\sdk\src\api\fields;
+namespace zsign\api\fields;
 
 class ImageField
 { 

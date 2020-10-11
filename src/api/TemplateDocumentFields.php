@@ -1,17 +1,17 @@
 <?php
 
-namespace Zoho\Sign\sdk\src\api;
+namespace zsign\api;
 
-use Zoho\Sign\sdk\src\api\fields\AttachmentField;
-use Zoho\Sign\sdk\src\api\fields\CheckBox;
-use Zoho\Sign\sdk\src\api\fields\DateField;
-use Zoho\Sign\sdk\src\api\fields\DropdownField;
-use Zoho\Sign\sdk\src\api\fields\DropdownValues;
-use Zoho\Sign\sdk\src\api\fields\ImageField;
-use Zoho\Sign\sdk\src\api\fields\RadioField;
-use Zoho\Sign\sdk\src\api\fields\RadioGroup;
-use Zoho\Sign\sdk\src\api\fields\TextField;
-use Zoho\Sign\sdk\src\api\fields\TextProperty;
+use zsign\api\fields\AttachmentField;
+use zsign\api\fields\CheckBox;
+use zsign\api\fields\DateField;
+use zsign\api\fields\DropdownField;
+use zsign\api\fields\DropdownValues;
+use zsign\api\fields\ImageField;
+use zsign\api\fields\RadioField;
+use zsign\api\fields\RadioGroup;
+use zsign\api\fields\TextField;
+use zsign\api\fields\TextProperty;
 
 
 class TemplateDocumentFields{

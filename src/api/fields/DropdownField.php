@@ -1,10 +1,10 @@
 <?php
 
-namespace Zoho\Sign\sdk\src\api\fields;
+namespace zsign\api\fields;
 
 
-use Zoho\Sign\sdk\src\api\fields\DropdownValues;
-use Zoho\Sign\sdk\src\api\fields\TextProperty;
+use zsign\api\fields\DropdownValues;
+use zsign\api\fields\TextProperty;
 
 class DropdownField
 { 
