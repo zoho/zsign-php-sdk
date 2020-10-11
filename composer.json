@@ -1,5 +1,5 @@
 {
-	"name": "ZohoSign/php-sdk",
+	"name": "zoho-sign/php-sdk",
 	"type": "SDK",
 	"description": "Zoho Sign's v1 api wrapper SDK in PHP",
 	"keywords": ["Zoho","Sign","Digital Signature", "Zoho Sign SDK", "Zoho Sign PHP SDK", "Zoho Sign PHP examples"],
