@@ -1,5 +1,5 @@
 # Zoho Sign SDK examples
-------------------------
+
 ##### List of examples in this folder and their usecase respectively :
 
 1. Send 1 document to 1 signer using text tags
@@ -17,8 +17,9 @@
 13. Get particular documents signer filled field details 
 
 ###### Note:
-The examples uses few test documents to be uploaded, found in /Documents
-The /Downloads folder is where the example 10 & 11 will be download the document/s
+  The examples uses few test documents to be uploaded, found in /Documents
+  The /Downloads folder is where the example 10 & 11 will be download the document/s
+  
 ----------------------------------------------------------------------
 #####	*To quickly test the examples :*
 
