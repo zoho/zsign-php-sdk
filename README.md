@@ -1,6 +1,6 @@
 PHP SDK for ZOHO SIGN
 ---------------------- 
-This SDK provides wrapper functions for Zoho Sign v1 API Document Management and Template Management.
+This SDK provides wrapper functions for Zoho Sign v1 API's Document Management and Template Management.
 
 You can setup signing workflows using this SDK similar as in Zoho Sign UI.
 
