@@ -40,7 +40,7 @@ class RequestObject
 	// private $field_detect_action;
 	// private $disable_forward;
 	private $custom_data;
-	// private $redirect_pages;
+	private $redirect_pages;
 	// private $send_completed_document;
 
 	function __construct($response=null)
@@ -179,6 +179,10 @@ class RequestObject
 		return $this->custom_data; 
 	}
 
+	public function getRedirectPages(){
+		return $this->redirect_pages; 
+	}
+
 	public function getOwnerEmail(){
 		return $this->owner_email;
 	}
@@ -284,6 +288,10 @@ class RequestObject
 	public function setCustomData( $custom_data ){
 		$this->custom_data = $custom_data; 
 	}
+
+	public function setRedirectPages( $redirect_pages ){
+		$this->redirect_pages = $redirect_pages; 
+	}
  
 	public function constructJson()
 	{
@@ -322,7 +330,7 @@ class RequestObject
 		$response["is_bulk"]		= $this->is_bulk;
 		// $response["bulk_request_id"]= $this->bulk_request_id;
 		$response["custom_data"]	= $this->custom_data;
-
+		$response["redirect_pages"]     = is_null($this->redirect_pages) ? NULL : $this->redirect_pages->constructJson();
 		return array_filter( $response, function($v) { return !is_null($v); } );
 	}
 }

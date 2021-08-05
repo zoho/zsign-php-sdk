@@ -128,7 +128,7 @@ class OAuth {
 		);
 
 		$response = ApiClient::callURL( 
-			'https://accounts.zoho.com/oauth/v2/token', // URL
+			'https://accounts.zoho.'.$this->DC.'/oauth/v2/token', // URL
 			ApiClient::POST, 							// METHOD
 			$params,									// PARAMS
 			null
