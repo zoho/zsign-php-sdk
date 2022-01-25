@@ -6,7 +6,7 @@ use zsign\api\Actions;
 use zsign\api\Documents;
 
 class RequestObject
-{ 
+{
 
 	private $request_id;	//not part of constructedJSON;
 	private $request_status;
@@ -17,18 +17,18 @@ class RequestObject
 	private $created_time;
 	private $modified_time;
 
-	private $request_name; 
-	private $email_reminders; 
-	private $document_ids = array(); // Array of class document_ids 
-	private $notes; 
-	private $reminder_period; 
-	private $expiration_days; 
-	private $is_sequential; 
-	private $description; 
-	private $validity; 
-	private $request_type_id; 
-	private $actions = array(); // Array of class actions 
-	private $deleted_actions = array(); // Array of class deleted_actions 
+	private $request_name;
+	private $email_reminders;
+	private $document_ids = array(); // Array of class document_ids
+	private $notes;
+	private $reminder_period;
+	private $expiration_days;
+	private $is_sequential;
+	private $description;
+	private $validity;
+	private $request_type_id;
+	private $actions = array(); // Array of class actions
+	private $deleted_actions = array(); // Array of class deleted_actions
 
 	//to include
 	private $folder_id;
@@ -76,7 +76,7 @@ class RequestObject
 		$this->description 			= (isset($response["description"])) 		? $response["description"]			: null;
 		$this->validity 			= (isset($response["validity"])) 			? $response["validity"]				: null;
 		$this->request_type_id  	= (isset($response["request_type_id"])) 	? $response["request_type_id"]		: null;
-		
+
 		$this->folder_id		  	= (isset($response["folder_id"])) 			? $response["folder_id"]			: null;
 		$this->self_sign		  	= (isset($response["self_sign"]))		 	? $response["self_sign"]			: false;
 
@@ -94,8 +94,8 @@ class RequestObject
 		$this->created_time 		= (isset($response["created_time"]))	 	? $response["created_time"]			: null;
 		$this->modified_time 		= (isset($response["modified_time"]))	 	? $response["modified_time"]		: null;
 
-		
-	} 
+
+	}
 
 	// Getters
 
@@ -109,78 +109,78 @@ class RequestObject
 
 	public function getRequestName(){
 		return $this->request_name;
-	} 
- 
+	}
+
 	public function getSelfSign(){
 		return $this->self_sign;
 	}
 
 	public function getAutomaiticReminders(){		// alias : Email reminders
 		return $this->email_reminders;
-	} 
- 
+	}
+
 	public function getDocumentIds(){
 		return $this->document_ids;
-	} 
- 
+	}
+
 	public function getNotes(){
 		return $this->notes;
-	} 
- 
+	}
+
 	public function getReminderPeriod(){
 		return $this->reminder_period;
-	} 
- 
+	}
+
 	public function getExpirationDays(){
 		return $this->expiration_days;
-	} 
- 
+	}
+
 	public function getSequentialSigning(){
 		return $this->is_sequential;
-	} 
- 
+	}
+
 	public function getDescription(){
 		return $this->description;
-	} 
- 
+	}
+
 	public function getValidity(){
 		return $this->validity;
-	} 
- 
+	}
+
 	public function getRequestTypeId(){
 		return $this->request_type_id;
-	} 
- 
+	}
+
 	public function getActions(){
 		return $this->actions;
-	} 
- 
+	}
+
 	public function getDeleted_actions(){
 		return $this->deleted_actions;
-	} 
+	}
 
-	public function getPageNum(){ 
-		return $this->page_num; 
+	public function getPageNum(){
+		return $this->page_num;
 	}
 
 	public function getExpirationAlertPeriod(){
-		return $this->expiration_alert_period; 
+		return $this->expiration_alert_period;
 	}
 
 	public function getBulkActions(){
-		return $this->bulk_actions; 
+		return $this->bulk_actions;
 	}
 
-	public function getIsBulk(){ 
-		return $this->is_bulk; 
+	public function getIsBulk(){
+		return $this->is_bulk;
 	}
 
 	public function getCustomData(){
-		return $this->custom_data; 
+		return $this->custom_data;
 	}
 
 	public function getRedirectPages(){
-		return $this->redirect_pages; 
+		return $this->redirect_pages;
 	}
 
 	public function getOwnerEmail(){
@@ -198,7 +198,7 @@ class RequestObject
 	public function getOwnerLastName(){
 		return $this->owner_last_name;
 	}
-	
+
 	public function getCreatedTime(){
 		return $this->created_time;
 	}
@@ -207,92 +207,92 @@ class RequestObject
 		return $this->modified_time;
 	}
 
-	// Setters	
+	// Setters
 
 	public function setRequestId( $request_id ){
 		$this->request_id = $request_id;
 	}
- 
+
 	public function setRequestName($request_name){
 		$this->request_name=$request_name;
-	} 
+	}
 
 	public function setSelfSign( $self_sign ){
 		$this->self_sign = $self_sign;
 	}
- 
+
 	public function setAutomaticReminders($email_reminders){	// alias : Email reminders
 		$this->email_reminders=$email_reminders;
-	} 
- 
+	}
+
 	public function setDocumentIds($document_ids){
 		array_push($this->document_ids,$document_ids);
-	} 
- 
+	}
+
 	public function setNotes($notes){
 		$this->notes=$notes;
-	} 
- 
+	}
+
 	public function setReminderPeriod($reminder_period){
 		$this->reminder_period=$reminder_period;
-	} 
- 
+	}
+
 	public function setExpirationDays($expiration_days){
 		$this->expiration_days=$expiration_days;
-	} 
- 
+	}
+
 	public function setSequentialSigning($is_sequential){
 		$this->is_sequential=$is_sequential;
-	} 
- 
+	}
+
 	public function setDescription($description){
 		$this->description=$description;
-	} 
- 
+	}
+
 	public function setValidity($validity){
 		$this->validity=$validity;
-	} 
- 
+	}
+
 	public function setRequestTypeId($request_type_id){
 		$this->request_type_id=$request_type_id;
-	} 
- 
+	}
+
 	public function addAction( $action ){
-		array_push($this->actions,$action);		
+		array_push($this->actions,$action);
 	}
 
 	public function setActions($actions){
 		$this->actions = $actions;
-	} 
- 
-	public function setDeletedActions($deleted_actions){
-		array_push( $this->deleted_actions, $deleted_actions );
-	} 
-
-	public function setPageNum( $page_num ){ 
-		$this->page_num = $page_num ; 
 	}
 
-	public function setExpirationAlertPeriod(){
-		$this->expiration_alert_period = $expiration_alert_period; 
+	public function setDeletedActions($deleted_actions){
+		array_push( $this->deleted_actions, $deleted_actions );
+	}
+
+	public function setPageNum( $page_num ){
+		$this->page_num = $page_num ;
+	}
+
+	public function setExpirationAlertPeriod($expiration_alert_period){
+		$this->expiration_alert_period = $expiration_alert_period;
 	}
 
 	public function setBulkActions( $bulk_actions ){
-		$this->bulk_actions = $bulk_actions; 
+		$this->bulk_actions = $bulk_actions;
 	}
 
-	public function setIsBulk( $is_bulk ){ 
-		$this->is_bulk = $is_bulk; 
+	public function setIsBulk( $is_bulk ){
+		$this->is_bulk = $is_bulk;
 	}
 
 	public function setCustomData( $custom_data ){
-		$this->custom_data = $custom_data; 
+		$this->custom_data = $custom_data;
 	}
 
 	public function setRedirectPages( $redirect_pages ){
-		$this->redirect_pages = $redirect_pages; 
+		$this->redirect_pages = $redirect_pages;
 	}
- 
+
 	public function constructJson()
 	{
 		// request_id not to be included

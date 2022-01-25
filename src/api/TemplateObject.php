@@ -11,7 +11,7 @@ use zsign\api\TemplateDocumentFields;
 
 
 class TemplateObject
-{ 
+{
 
 	// template creation variable
 	private $field_data;
@@ -100,7 +100,7 @@ class TemplateObject
 		$this->owner_id 		  	= (isset($response["owner_id"]))		 	? $response["owner_id"] 			: null;
 
 
-	
+
 
 		// $this->prefill_fields 		= array();
 			$this->field_text_data 		= array();
@@ -131,14 +131,14 @@ class TemplateObject
 						case "datefield":
 							$this->field_date_data   [ $field["field_label"] ]	= new PrefillField($field) ;
 							break;
-							
+
 					}
 				}
 
 			}
 		}
 
-	} 
+	}
 
 	// --------- GETTERS ---------
 
@@ -148,74 +148,74 @@ class TemplateObject
 
 	public function getTemplateName(){
 		return $this->template_name;
-	} 
- 
+	}
+
 	public function getSelfSign(){
 		return $this->self_sign;
 	}
 
 	public function getAutomaiticReminders(){		// alias : Email reminders
 		return $this->email_reminders;
-	} 
- 
+	}
+
 	public function getDocumentIds(){
 		return $this->document_ids;
-	} 
- 
+	}
+
 	public function getNotes(){
 		return $this->notes;
-	} 
- 
+	}
+
 	public function getReminderPeriod(){
 		return $this->reminder_period;
-	} 
- 
+	}
+
 	public function getExpirationDays(){
 		return $this->expiration_days;
-	} 
- 
+	}
+
 	public function getSequentialSigning(){
 		return $this->is_sequential;
-	} 
- 
+	}
+
 	public function getDescription(){
 		return $this->description;
-	} 
- 
+	}
+
 	public function getValidity(){
 		return $this->validity;
-	} 
- 
+	}
+
 	public function getRequestTypeId(){
 		return $this->request_type_id;
-	} 
- 
+	}
+
 	public function getActions(){
 		return $this->actions;
-	} 
- 
+	}
+
 	public function getDeleted_actions(){
 		return $this->deleted_actions;
-	} 
+	}
 
-	public function getPageNum(){ 
-		return $this->page_num; 
+	public function getPageNum(){
+		return $this->page_num;
 	}
 
 	public function getExpirationAlertPeriod(){
-		return $this->expiration_alert_period; 
+		return $this->expiration_alert_period;
 	}
 
 	public function getBulkActions(){
-		return $this->bulk_actions; 
+		return $this->bulk_actions;
 	}
 
-	public function getIsBulk(){ 
-		return $this->is_bulk; 
+	public function getIsBulk(){
+		return $this->is_bulk;
 	}
 
 	public function getCustomData(){
-		return $this->custom_data; 
+		return $this->custom_data;
 	}
 
 	public function getCreatedTime(){
@@ -254,88 +254,88 @@ class TemplateObject
 	public function setTemplateId( $template_id ){
 		$this->template_id = $template_id;
 	}
- 
+
 	public function setTemplateName($template_name){
 		$this->template_name=$template_name;
-	} 
+	}
 
 	public function setSelfSign( $self_sign ){
 		$this->self_sign = $self_sign;
 	}
- 
+
 	public function setAutomaticReminders($email_reminders){	// alias : Email reminders
 		$this->email_reminders=$email_reminders;				// In ref. to UI
-	} 
+	}
 
 	public function setEmailReminders( $email_reminders ){		// DUPLICATE
 		$this->email_reminders=$email_reminders;
 	}
- 
+
 	public function setDocumentIds($document_ids){
 		array_push($this->document_ids,$document_ids);
-	} 
- 
+	}
+
 	public function setNotes($notes){
 		$this->notes=$notes;
-	} 
- 
+	}
+
 	public function setReminderPeriod($reminder_period){
 		$this->reminder_period=$reminder_period;
-	} 
- 
+	}
+
 	public function setExpirationDays($expiration_days){
 		$this->expiration_days=$expiration_days;
-	} 
- 
+	}
+
 	public function setSequentialSigning($is_sequential){
 		$this->is_sequential=$is_sequential;
-	} 
- 
+	}
+
 	public function setDescription($description){
 		$this->description=$description;
-	} 
- 
+	}
+
 	public function setValidity($validity){
 		$this->validity=$validity;
-	} 
- 
+	}
+
 	public function setRequestTypeId($request_type_id){
 		$this->request_type_id=$request_type_id;
-	} 
- 
+	}
+
 	public function addAction( $action ){
 		// echo '<br> addAction'.gettype($action)."<hr>";
-		array_push($this->actions,$action);		
+		array_push($this->actions,$action);
 	}
 
 	public function setActions($actions){
 		$this->actions = $actions;
-	} 
- 
-	public function setDeletedActions($deleted_actions){
-		array_push( $this->deleted_actions, $deleted_actions );
-	} 
-
-	public function setPageNum( $page_num ){ 
-		$this->page_num = $page_num ; 
 	}
 
-	public function setExpirationAlertPeriod(){
-		$this->expiration_alert_period = $expiration_alert_period; 
+	public function setDeletedActions($deleted_actions){
+		array_push( $this->deleted_actions, $deleted_actions );
+	}
+
+	public function setPageNum( $page_num ){
+		$this->page_num = $page_num ;
+	}
+
+	public function setExpirationAlertPeriod($expiration_alert_period){
+		$this->expiration_alert_period = $expiration_alert_period;
 	}
 
 	public function setBulkActions( $bulk_actions ){
-		$this->bulk_actions = $bulk_actions; 
+		$this->bulk_actions = $bulk_actions;
 	}
 
-	public function setIsBulk( $is_bulk ){ 
-		$this->is_bulk = $is_bulk; 
+	public function setIsBulk( $is_bulk ){
+		$this->is_bulk = $is_bulk;
 	}
 
 	public function setCustomData( $custom_data ){
-		$this->custom_data = $custom_data; 
+		$this->custom_data = $custom_data;
 	}
- 
+
  	public function setCreatedTime( $created_time ){
 		$this->created_time = $created_time ;
 	}
@@ -398,7 +398,7 @@ class TemplateObject
 		$this->field_date_data 		[ $label ]->setFeildValue($value) ;
 	}
 
-	
+
 	/// ------------ ACTION DATA MANIPULATION FUNCITONS ------------
 	public function getActionByRole( $role ){
 
@@ -444,7 +444,7 @@ class TemplateObject
 		// $response["self_sign"]		= $this->self_sign; //not present in security XML
 		$response["bulk_actions"]	= $this->bulk_actions;
 		$response["is_bulk"]		= $this->is_bulk;
-		
+
 
 		return array_filter( $response, function($v) { return !is_null($v); } );
 	}
@@ -454,20 +454,21 @@ class TemplateObject
 		foreach ($this->field_text_data as $obj) {
 			$field_text_data_Obj[ $obj->getFieldLabel() ] 		= $obj->getFieldValue();
 		}
-		
+
 		$field_boolean_data_Obj = array();
 		foreach ($this->field_boolean_data as $obj) {
 			$field_boolean_data_Obj[ $obj->getFieldLabel() ] 	= $obj->getFieldValue();
 		}
-		
+
 		$field_date_data_Obj = array();
 		foreach ($this->field_date_data as $obj) {
 			$field_date_data_Obj[ $obj->getFieldLabel() ] 		= $obj->getFieldValue();
 		}
-		
-		$field_data->field_text_data 	= (count($field_text_data_Obj) == 0) ? new \stdClass() : $field_text_data_Obj;
+
+        $field_data = new \stdClass();
+        $field_data->field_text_data 	= (count($field_text_data_Obj) == 0) ? new \stdClass() : $field_text_data_Obj;
 		$field_data->field_boolean_data = (count($field_boolean_data_Obj)==0)? new \stdClass() : $field_boolean_data_Obj;
-		$field_data->field_date_data 	= (count($field_date_data_Obj)==0) ?   new \stdClass() : $field_date_data_Obj;	
+		$field_data->field_date_data 	= (count($field_date_data_Obj)==0) ?   new \stdClass() : $field_date_data_Obj;
 
 
 

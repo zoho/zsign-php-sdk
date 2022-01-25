@@ -56,13 +56,13 @@ abstract class ZohoSign{
 	}
 
 	static function getCurrentUser(){
-		return self::$currentUser;	
+		return self::$currentUser;
 	}
 
 	//-----------------------_REQUESTS_-----------------------
 
 	static function getRequest( $requestId ){
-		
+
 		$response = ApiClient::callSignAPI( "/api/v1/requests/$requestId", ApiClient::GET, null, null );
 
 		$responseObject = new RequestObject( $response->requests );
@@ -85,10 +85,10 @@ abstract class ZohoSign{
 			}
 		}
 
-		$payload = array( 
-			"file"		=> $files[0], 
+		$payload = array(
+			"file"		=> $files[0],
 			"data" 		=> json_encode( $data )
-			
+
 		);
 
 		$response = ApiClient::callSignAPI(
@@ -116,7 +116,7 @@ abstract class ZohoSign{
 		}
 
 		$requestId   = $requestObject->getRequestId();
-		
+
 		if( !isset($requestId) ){
 			throw new SignException("Request Id not set", -1);
 		}
@@ -124,7 +124,7 @@ abstract class ZohoSign{
 		$data = new \stdClass();
 		$data->requests = $requestObject->constructJson();
 
-		$payload = array( 
+		$payload = array(
 			"data" 		=> json_encode( $data )
 		);
 
@@ -150,7 +150,7 @@ abstract class ZohoSign{
 			> files are uploaded one at a time using CURL
 			> use GUZZLE for multi file upload?
 		*/
-		$response;
+		$response = null;
 
 			foreach ($files as $file) {
 
@@ -167,8 +167,8 @@ abstract class ZohoSign{
 				);
 
 			}
-			
-		
+
+
 		return $response;
 	}
 
@@ -177,9 +177,9 @@ abstract class ZohoSign{
 		if( is_a($requestObject, "RequestObject") ){
 			throw new SignException("not an object of 'RequestObject' class", -1);
 		}
-		
+
 		$requestId   = $requestObject->getRequestId();
-		
+
 		if( !isset($requestId) ){
 			throw new SignException("Request Id not set", -1);
 		}
@@ -187,7 +187,7 @@ abstract class ZohoSign{
 		$data = new \stdClass();
 		$data->requests = $requestObject->constructJson();
 
-		$payload = array( 
+		$payload = array(
 			"data" 		=> json_encode( $data )
 		);
 
@@ -199,7 +199,7 @@ abstract class ZohoSign{
 		);
 
 		return new RequestObject( $response->requests );
-		
+
 	}
 
 	static function selfSignRequest( $requestObject ){
@@ -207,9 +207,9 @@ abstract class ZohoSign{
 		if( is_a($requestObject, "RequestObject") ){
 			throw new SignException("not an object of 'RequestObject' class", -1);
 		}
-		
+
 		$requestId   = $requestObject->getRequestId();
-		
+
 		if( !isset($requestId) ){
 			throw new SignException("Request Id not set", -1);
 		}
@@ -217,7 +217,7 @@ abstract class ZohoSign{
 		$data = new \stdClass();
 		$data->requests = $requestObject->constructJson();
 
-		$payload = array( 
+		$payload = array(
 			"data" 		=> json_encode( $data )
 		);
 
@@ -236,27 +236,29 @@ abstract class ZohoSign{
 		}else{
 			return false;
 		}
-		
+
 	}
 
 	static function getRequestList( $category, $start_index=0, $row_count=100, $sort_order="DESC", $sort_column="action_time" ){
 
-		$page_context->start_index 	= $start_index;
+        $page_context = new \stdClass();
+        $page_context->start_index 	= $start_index;
 		$page_context->row_count 	= $row_count;
 		$page_context->sort_column 	= $sort_column;
 		$page_context->sort_order 	= $sort_order;
 
-		$data->page_context			= $page_context;
+        $data = new \stdClass();
+        $data->page_context			= $page_context;
 
 		$payload = array(
 			"data"				=> json_encode($data)
 		);
 
-		$response;
+		$response = null;
 		$myRequest = null;
 
 		switch( $category ){
-			
+
 			case "shredded":
 			case "archived":
 			case "deleted":
@@ -310,14 +312,14 @@ abstract class ZohoSign{
 
 
 		return $requestsList;
-	
+
 	}
 
 	static function generateEmbeddedSigningLink( $request_id, $action_id, $host=null ){
 		$response = ApiClient::callSignAPI(
 			"/api/v1/requests/$request_id/actions/$action_id/embedtoken".(is_null($host)?"":"?host=$host"),	// api
 			ApiClient::POST, 							// post
-			$payload, 									// queryparams
+			null, 									// queryparams
 			null 										// post data
 		);
 
@@ -338,7 +340,7 @@ abstract class ZohoSign{
 			array_push($actionsArr, new Actions($action));
 		}
 		return $actionsArr;
-		
+
 	}
 
 	static function setDownloadPath( $path ){
@@ -367,7 +369,7 @@ abstract class ZohoSign{
 		);
 
 		if( $response ){
-			return true; 
+			return true;
 		}else{
 			throw new SignException("Failed to download file", -1 );
 		}
@@ -384,7 +386,7 @@ abstract class ZohoSign{
 		);
 
 		if( $response ){
-			return true; 
+			return true;
 		}else{
 			throw new SignException("Failed to download file", -1);
 		}
@@ -401,7 +403,7 @@ abstract class ZohoSign{
 		);
 
 		if( $response ){
-			return true; 
+			return true;
 		}else{
 			throw new SignException("Failed to download file", -1);
 		}
@@ -409,7 +411,7 @@ abstract class ZohoSign{
 	//---------------
 
 	static function recallRequest( $requestId ){
-		
+
 		ApiClient::callSignAPI(
 			"/api/v1/requests/$requestId/recall", 	// api
 			ApiClient::POST, 						// post
@@ -421,7 +423,7 @@ abstract class ZohoSign{
 	}
 
 	public function remindRequest( $requestId ){
-		
+
 		ApiClient::callSignAPI(
 			"/api/v1/requests/$requestId/remind", 	// api
 			ApiClient::POST, 						// post
@@ -434,7 +436,7 @@ abstract class ZohoSign{
 	}
 
 	public function deleteRequest( $requestId ){
-		
+
 		ApiClient::callSignAPI(
 			"/api/v1/requests/$requestId/delete", 	// api
 			ApiClient::PUT, 						// post
@@ -445,9 +447,9 @@ abstract class ZohoSign{
 		return true; // returning true is suffice ?
 
 	}
-	
+
 	public function deleteDocument( $documentId ){
-		
+
 		ApiClient::callSignAPI(
 			"/api/v1/documents/$documentId/delete", // api
 			ApiClient::PUT, 						// post
@@ -462,8 +464,9 @@ abstract class ZohoSign{
 
 	// ERROR : data occurs less than minimum occurance of 1
 	public function createNewFolder( $folderName ){
-		
-		$data->folders->folder_name = $folderName;
+
+        $data = new \stdClass();
+        $data->folders->folder_name = $folderName;
 		$payload = array(
 			"data" => json_encode( $data )
 		);
@@ -475,7 +478,7 @@ abstract class ZohoSign{
 			$payload 								// post data
 		);
 
-		return $response->folders->folder_id; 
+		return $response->folders->folder_id;
 	}
 
 	public function getFieldTypes(){
@@ -508,7 +511,7 @@ abstract class ZohoSign{
 	}
 
 	public function createRequestType( $var /*requestTypeName or RequestTypeObject*/, $requestTypeDescription="" ){
-		
+
 		if( get_class($var)=="RequestType" ){
 			$payload = array(
 				"data" => json_encode($var->constructJson())
@@ -516,7 +519,7 @@ abstract class ZohoSign{
 		}else{
 			$requestTypeName = $var;
 			$payload = array(
-				"data" => json_encode( array( 
+				"data" => json_encode( array(
 					"request_types"=>array(
 						"request_type_name"	=> $requestTypeName,
 						"request_type_description" => $requestTypeDescription
@@ -537,7 +540,7 @@ abstract class ZohoSign{
 
 	/* // need to revisit the function
 	public function updateRequestType( $var , $requestTypeName="", $requestTypeDescription="" ){//requestTypeId
-			
+
 		$requestTypeId;
 
 		if( get_class($var)=="RequestType" ){
@@ -548,7 +551,7 @@ abstract class ZohoSign{
 		}else{
 			$requestTypeId = $var;
 			$payload = array(
-				"data" => json_encode( array( 
+				"data" => json_encode( array(
 					"request_types"=>array(
 						"request_type_name"	=> $requestTypeName,
 						"request_type_description" => $requestTypeDescription
@@ -571,7 +574,7 @@ abstract class ZohoSign{
 
 	public function getFolderList(){
 
-		ApiClient::callSignAPI(
+        $response = ApiClient::callSignAPI(
 			"/api/v1/folders",					 	// api
 			ApiClient::GET, 						// post
 			null, 									// queryparams
@@ -591,10 +594,10 @@ abstract class ZohoSign{
 		$data = new \stdClass();
 		$data->templates = $templateObject->constructJson();
 
-		$payload = array( 
+		$payload = array(
 			"file"		=> $files[0],
 			"data" 		=> json_encode( $data )
-			
+
 		);
 
 		$response = ApiClient::callSignAPI(
@@ -621,7 +624,7 @@ abstract class ZohoSign{
 	static function updateTemplate( $templateObject, $files=null ){
 
 		$templateId   = $templateObject->getTemplateId();
-		
+
 		if( !isset($templateId) ){
 			throw new SignException("Template Id not set", -1);
 		}
@@ -629,14 +632,9 @@ abstract class ZohoSign{
 		$data = new \stdClass();
 		$data->templates = $templateObject->constructJson();
 
-		$payload = array( 
+		$payload = array(
 			"data" 		=> json_encode( $data )
 		);
-
-		echo "<hr>";
-		var_dump( $payload );
-		echo "<hr>";
-
 
 		$response = ApiClient::callSignAPI(
 			"/api/v1/templates/$templateId", 			// api
@@ -654,9 +652,9 @@ abstract class ZohoSign{
 
 	static function addFilesToTemplate( $template_id, array $files ){
 
-		$response;
+		$response = null;
 
-		if( count($files) >0 ){	
+		if( count($files) >0 ){
 
 			foreach ($files as $file) {
 
@@ -673,7 +671,7 @@ abstract class ZohoSign{
 				);
 
 			}
-			
+
 		}
 		return $response;
 	}
@@ -690,7 +688,7 @@ abstract class ZohoSign{
 	}
 
 	static function sendTemplate( $templateObj, $quick_send=true ){
-		
+
 		$templateId   = $templateObj->getTemplateId();
 
 		if( !isset($templateId) ){
@@ -699,9 +697,9 @@ abstract class ZohoSign{
 
 		$data["templates"] = $templateObj->constructJsonForSubmit();
 
-		$payload = array( 
+		$payload = array(
 			"data" 			=> json_encode( $data ),
-			"is_quicksend"	=> $quick_send ? 'true' : 'false' 
+			"is_quicksend"	=> $quick_send ? 'true' : 'false'
 		);
 
 		$response = ApiClient::callSignAPI(
@@ -724,9 +722,9 @@ abstract class ZohoSign{
 
 		$data["templates"] = $jsonArr;
 
-		$payload = array( 
+		$payload = array(
 			"data" 			=> $data,
-			"is_quicksend"	=> $quick_send ? 'true' : 'false' 
+			"is_quicksend"	=> $quick_send ? 'true' : 'false'
 		);
 
 		echo json_encode($payload);
@@ -739,25 +737,25 @@ abstract class ZohoSign{
 		);
 
 		return new RequestObject ( $response->requests  );
-		
+
 
 	}*/
 
 	static function getTemplatesList( $start_index=0, $row_count=100, $sort_order="DESC", $sort_column="action_time" ){
 
-		$page_context->start_index 	= $start_index;
+        $page_context = new \stdClass();
+        $page_context->start_index 	= $start_index;
 		$page_context->row_count 	= $row_count;
 		$page_context->sort_column 	= $sort_column;
 		$page_context->sort_order 	= $sort_order;
 
-		$data->page_context			= $page_context;
+        $data = new \stdClass();
+        $data->page_context			= $page_context;
 
 		$payload = array(
 			"data"	=> json_encode($data)
 		);
 
-		$response;
-		
 		$response = ApiClient::callSignAPI(
 			"/api/v1/templates", 						// api
 			ApiClient::GET, 							// post
@@ -765,7 +763,7 @@ abstract class ZohoSign{
 			null 										// post data
 		);
 
-		// return 
+		// return
 		$templatesList = array();
 		foreach ($response->templates as $templateJSON) {
 			array_push( $templatesList, new TemplateObject($templateJSON) );
