@@ -34,7 +34,7 @@ class OAuth {
 	private $scope;
 	private $access_type;
 	private $DC = 'com';
-	
+
 	private $access_token;
 	private $refresh_token;
 
@@ -111,7 +111,7 @@ class OAuth {
 	}
 
 	public function getRefreshToken(){
-		return $this->$refresh_token;
+		return $this->refresh_token;
 	}
 
 	public function setRefreshToken( $refresh_token ){
@@ -127,7 +127,7 @@ class OAuth {
 			'grant_type'		=> 'refresh_token'
 		);
 
-		$response = ApiClient::callURL( 
+		$response = ApiClient::callURL(
 			'https://accounts.zoho.'.$this->DC.'/oauth/v2/token', // URL
 			ApiClient::POST, 							// METHOD
 			$params,									// PARAMS
@@ -140,7 +140,7 @@ class OAuth {
 		}else{
 			return null;
 		}
-		
+
 	}
 
 }
