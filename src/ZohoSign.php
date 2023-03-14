@@ -2,6 +2,8 @@
 
 namespace zsign;
 
+use CURLFile;
+use stdClass;
 use zsign\OAuth;
 use zsign\ApiClient;
 use zsign\SignException;
@@ -30,8 +32,10 @@ abstract class ZohoSign{
 
 	static private $users;
 	static private $currentUser;
+	static private $downloadPath;
+	static private $testing=false;
 
-	static private $downloadPath = null;
+	
 
 	const ALL 		= "_ALL";				// key valid in sdk only
 	const SHREDDED	= "shredded";
@@ -59,6 +63,13 @@ abstract class ZohoSign{
 		return self::$currentUser;	
 	}
 
+	static function setTesting( $testing ){
+		self::$testing = $testing;
+	}
+	
+	static function getTesting(){
+		return self::$testing;	
+	}
 	//-----------------------_REQUESTS_-----------------------
 
 	static function getRequest( $requestId ){
@@ -78,7 +89,6 @@ abstract class ZohoSign{
 
 		$data = new \stdClass();
 		$data->requests = $requestObject->constructJson();
-
 		foreach ($files as $index=>$file) {
 			if( get_class($file) != "CURLfile" && is_string($file) && substr($file, 0, 1)=="@" ){
 				$files[ $index ] = new CURLfile( $file );
@@ -87,8 +97,8 @@ abstract class ZohoSign{
 
 		$payload = array( 
 			"file"		=> $files[0], 
-			"data" 		=> json_encode( $data )
-			
+			"data" 		=> json_encode( $data ),
+			"testing"	=> self::getTesting()?'true':'false',
 		);
 
 		$response = ApiClient::callSignAPI(
@@ -150,7 +160,6 @@ abstract class ZohoSign{
 			> files are uploaded one at a time using CURL
 			> use GUZZLE for multi file upload?
 		*/
-		$response;
 
 			foreach ($files as $file) {
 
@@ -188,7 +197,8 @@ abstract class ZohoSign{
 		$data->requests = $requestObject->constructJson();
 
 		$payload = array( 
-			"data" 		=> json_encode( $data )
+			"data" 		=> json_encode( $data ),
+			"testing"	=>	self::$testing?'true':'false',
 		);
 
 		$response = ApiClient::callSignAPI(
@@ -240,19 +250,19 @@ abstract class ZohoSign{
 	}
 
 	static function getRequestList( $category, $start_index=0, $row_count=100, $sort_order="DESC", $sort_column="action_time" ){
-
+		$page_context= new \stdClass();
 		$page_context->start_index 	= $start_index;
 		$page_context->row_count 	= $row_count;
 		$page_context->sort_column 	= $sort_column;
 		$page_context->sort_order 	= $sort_order;
 
+		$data=new \stdClass();
 		$data->page_context			= $page_context;
 
 		$payload = array(
 			"data"				=> json_encode($data)
 		);
 
-		$response;
 		$myRequest = null;
 
 		switch( $category ){
@@ -317,7 +327,7 @@ abstract class ZohoSign{
 		$response = ApiClient::callSignAPI(
 			"/api/v1/requests/$request_id/actions/$action_id/embedtoken".(is_null($host)?"":"?host=$host"),	// api
 			ApiClient::POST, 							// post
-			$payload, 									// queryparams
+			null, 									// queryparams
 			null 										// post data
 		);
 
@@ -355,12 +365,16 @@ abstract class ZohoSign{
 		return self::$downloadPath;
 	}
 
-	static function downloadRequest( $requestId ){
+	static function downloadRequest( $requestId, $with_coc=false,$is_merged=false){
 
+		$queryParams= array( 
+			"with_coc"	=> $with_coc?'true':'false', 
+			"is_merged" => $is_merged?'true':'false',
+		);
 		$response = ApiClient::callSignAPI(
 			"/api/v1/requests/$requestId/pdf", 		// api
 			ApiClient::GET, 						// post
-			null, 									// queryparams
+			$queryParams, 							// queryparams
 			null, 									// post data
 			false,									// multipartform data
 			true 									// response : file type
@@ -462,7 +476,7 @@ abstract class ZohoSign{
 
 	// ERROR : data occurs less than minimum occurance of 1
 	public function createNewFolder( $folderName ){
-		
+		$data=new \stdClass();
 		$data->folders->folder_name = $folderName;
 		$payload = array(
 			"data" => json_encode( $data )
@@ -556,7 +570,6 @@ abstract class ZohoSign{
 				 ) )
 			);
 		}
-		// var_dump( $payload )	;
 
 		$response = ApiClient::callSignAPI(
 			"/api/v1/requesttypes/".$requestTypeId, // api
@@ -571,16 +584,100 @@ abstract class ZohoSign{
 
 	public function getFolderList(){
 
-		ApiClient::callSignAPI(
+		$response = ApiClient::callSignAPI(
 			"/api/v1/folders",					 	// api
 			ApiClient::GET, 						// post
 			null, 									// queryparams
 			null 	 								// post data
 		);
-
 		return new RequestType($response->folders); // [!!] RETURN AS FOLDER OBJECT
 
 	}
+
+	public function extendDocumentValidity($currentUser,$request_id,$extendedDate) //In format (dd MMMM yyyy )
+	{
+
+		$payload = array(
+			"expire_by" => $extendedDate
+		);
+
+		$response = ApiClient::callSignAPI(
+			"api/v1/requests/$request_id/extend",					 	// api
+			ApiClient::POST, 						// post
+			null, 									// queryparams
+			$payload 	 								// post data
+		);
+		if($response["status"]=="success")
+		{
+			return false;
+		}
+		return true;
+	}
+
+	public function emailDocument($currentUser,$request_id,array $emails)//only 3 email allowed
+	{
+
+		if((!is_array($emails)) || count($emails)>3)
+		{
+			return false;
+		}
+		$payload = array(
+			"email_id" => $emails
+		);
+		$response = ApiClient::callSignAPI(
+			"api/v1/requests/$request_id/email",    // api
+			ApiClient::POST, 						// post
+			null, 									// queryparams
+			$payload 	 						    // post data
+		);
+		if($response["status"]=="success")
+		{
+			return false;
+		}
+		return true;
+	}
+
+	public function getReminderSettings($request_id)
+	{
+		$response = ApiClient::callSignAPI(
+			"api/v1/requests/$request_id/remindersettings",    // api
+			ApiClient::GET, 						// post
+			null, 									// queryparams
+			null 	 						    // post data
+		);
+		if($response["status"]=="success")
+		{
+			return $response;
+		}
+		return false;
+	}
+
+	public function setReminderSettings($request_id,$reminder_period,$email_reminders=true)
+	{
+		$data=new \stdClass();
+		$settings=new \stdClass();
+		$reminders_settings=new \stdClass();
+		 
+		$reminders_settings->reminder_period=$reminder_period;
+		$reminders_settings->email_reminders=$email_reminders;
+		$settings->$reminders_settings=$reminders_settings;
+		$data->$settings=$$settings;
+		$payload = array(
+			"data" => json_encode( $data )
+		);
+		$response = ApiClient::callSignAPI(
+			"api/v1/requests/$request_id/remindersettings",    // api
+			ApiClient::POST, 						// post
+			null, 									// queryparams
+			$payload 	 						    // post data
+		);
+		if($response["status"]=="success")
+		{
+			return $response;
+		}
+		return false;
+	}
+
 
 
 	//-----------------------_TEMPLATES_-----------------------
@@ -632,12 +729,6 @@ abstract class ZohoSign{
 		$payload = array( 
 			"data" 		=> json_encode( $data )
 		);
-
-		echo "<hr>";
-		var_dump( $payload );
-		echo "<hr>";
-
-
 		$response = ApiClient::callSignAPI(
 			"/api/v1/templates/$templateId", 			// api
 			ApiClient::PUT, 							// post
@@ -647,14 +738,12 @@ abstract class ZohoSign{
 		);
 
 		// array_splice( $files, 0,1 );
-		self::addFilesToRequest( $requestId, $files );
+		self::addFilesToRequest( $templateId, $files );
 
 		return $response;
 	}
 
 	static function addFilesToTemplate( $template_id, array $files ){
-
-		$response;
 
 		if( count($files) >0 ){	
 
@@ -701,7 +790,8 @@ abstract class ZohoSign{
 
 		$payload = array( 
 			"data" 			=> json_encode( $data ),
-			"is_quicksend"	=> $quick_send ? 'true' : 'false' 
+			"is_quicksend"	=> $quick_send ? 'true' : 'false' ,
+			"testing"	=>	self::$testing?'true':'false',
 		);
 
 		$response = ApiClient::callSignAPI(
@@ -729,8 +819,6 @@ abstract class ZohoSign{
 			"is_quicksend"	=> $quick_send ? 'true' : 'false' 
 		);
 
-		echo json_encode($payload);
-
 		$response = ApiClient::callSignAPI(
 			"/api/v1/templates/$templateId/createdocument", 	// api
 			ApiClient::POST, 									// post
@@ -745,18 +833,18 @@ abstract class ZohoSign{
 
 	static function getTemplatesList( $start_index=0, $row_count=100, $sort_order="DESC", $sort_column="action_time" ){
 
+		$page_context=new \stdClass();
 		$page_context->start_index 	= $start_index;
 		$page_context->row_count 	= $row_count;
 		$page_context->sort_column 	= $sort_column;
 		$page_context->sort_order 	= $sort_order;
 
+		$data=new \stdClass();
 		$data->page_context			= $page_context;
 
 		$payload = array(
 			"data"	=> json_encode($data)
 		);
-
-		$response;
 		
 		$response = ApiClient::callSignAPI(
 			"/api/v1/templates", 						// api

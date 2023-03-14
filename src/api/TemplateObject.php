@@ -44,6 +44,12 @@ class TemplateObject
 	private $template_id;//not part of constructedJSON;
 	private $template_name;
 	private $validity;
+	private $folder_id;
+	private $self_sign;
+	private $deleted_actions;
+	private $page_num;
+	private $expiration_alert_period;
+	private $bulk_template_id;
 
 	private $field_text_data;
 	private $field_boolean_data;
@@ -117,8 +123,6 @@ class TemplateObject
 				array_push($this->document_fields,new TemplateDocumentFields($obj));
 
 				foreach ($obj["fields"] as $field) {
-
-					// echo "<br><br>".$field["field_label"]." :: ".$field["field_category"]."<br>";
 
 					switch( $field["field_category"] ){
 						case "checkbox":
@@ -304,7 +308,6 @@ class TemplateObject
 	} 
  
 	public function addAction( $action ){
-		// echo '<br> addAction'.gettype($action)."<hr>";
 		array_push($this->actions,$action);		
 	}
 
@@ -320,7 +323,7 @@ class TemplateObject
 		$this->page_num = $page_num ; 
 	}
 
-	public function setExpirationAlertPeriod(){
+	public function setExpirationAlertPeriod($expiration_alert_period){
 		$this->expiration_alert_period = $expiration_alert_period; 
 	}
 
@@ -387,15 +390,15 @@ class TemplateObject
 
 	// -------- setters ---------
 	public function setPrefillTextField( $label, $value ){
-		$this->field_text_data 		[ $label ]->setFeildValue($value) ;
+		$this->field_text_data [ $label ]=($value) ;
 	}
 
 	public function setPrefillBooleanField( $label, $value ){
-		$this->field_boolean_data 	[ $label ]->setFeildValue($value) ;
+		$this->field_boolean_data 	[ $label ]=($value) ;
 	}
 
 	public function setPrefillDateField( $label, $value ){
-		$this->field_date_data 		[ $label ]->setFeildValue($value) ;
+		$this->field_date_data 		[ $label ]=($value) ;
 	}
 
 	
@@ -451,20 +454,21 @@ class TemplateObject
 
 	public function constructJsonForSubmit(){
 		$field_text_data_Obj = array();
-		foreach ($this->field_text_data as $obj) {
-			$field_text_data_Obj[ $obj->getFieldLabel() ] 		= $obj->getFieldValue();
+		foreach ($this->field_text_data as $label=>$value) {
+			$field_text_data_Obj[ $label ] 		= $value;
 		}
 		
 		$field_boolean_data_Obj = array();
-		foreach ($this->field_boolean_data as $obj) {
-			$field_boolean_data_Obj[ $obj->getFieldLabel() ] 	= $obj->getFieldValue();
+		foreach ($this->field_boolean_data as $label=>$value) {
+			$field_boolean_data_Obj[  $label  ] 	= $value;
 		}
 		
 		$field_date_data_Obj = array();
-		foreach ($this->field_date_data as $obj) {
-			$field_date_data_Obj[ $obj->getFieldLabel() ] 		= $obj->getFieldValue();
+		foreach ($this->field_date_data as  $label=>$value) {
+			$field_date_data_Obj[  $label  ] 		= $value;
 		}
 		
+		$field_data= new \stdClass();   //new add
 		$field_data->field_text_data 	= (count($field_text_data_Obj) == 0) ? new \stdClass() : $field_text_data_Obj;
 		$field_data->field_boolean_data = (count($field_boolean_data_Obj)==0)? new \stdClass() : $field_boolean_data_Obj;
 		$field_data->field_date_data 	= (count($field_date_data_Obj)==0) ?   new \stdClass() : $field_date_data_Obj;	

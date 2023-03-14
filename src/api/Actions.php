@@ -17,7 +17,9 @@ class Actions
 	private $fields; // Object of fields class
 	private $deleted_fields = array(); // Array of class deleted_fields 
 	private $recipient_countrycode; 
+	private $recipient_countrycode_iso; 
 	private $recipient_phonenumber; 
+	private $delivery_mode;
 
 	private $language;
 	private $is_embedded; 	private $verification_type;
@@ -31,6 +33,7 @@ class Actions
 	const EMAIL 	= "EMAIL";
 	const OFFLINE	= "OFFLINE";
 	const SMS 		= "SMS";
+	const EMAIL_SMS = "EMAIL_SMS";
 
 	// used in Templates only
 	private $role;
@@ -57,7 +60,7 @@ class Actions
 		$this->language 			= (isset($response["language"])) 				? $response["language"] 				: null;
 		$this->verification_type	= (isset($response["verification_type"])) 		? $response["verification_type"] 		: null;
 		$this->verification_code	= (isset($response["verification_code"])) 		? $response["verification_code"]		: null;
-
+		$this->delivery_mode		= (isset($response["delivery_mode"]))			? $response["delivery_mode"]			: null; //delivery
 		// used in Templates only
 		$this->role					= (isset($response["role"])) 					? $response["role"] 					: null;
 		$this->is_embedded 			= (isset($response["is_embedded"])) 			? $response["is_embedded"] 				: null;
@@ -116,7 +119,11 @@ class Actions
 	public function getRecipientCountrycode(){
 		return $this->recipient_countrycode;
 	} 
- 
+	
+	public function getRecipientCountrycodeISO(){
+		return $this->recipient_countrycode_iso;
+	} 
+
 	public function getRecipientPhonenumber(){
 		return $this->recipient_phonenumber;
 	} 
@@ -140,6 +147,12 @@ class Actions
 	public function getIsEmbedded(){
 		return $this->is_embedded;
 	}
+
+	public function getDeliveryMode()
+	{
+		return $this->delivery_mode;
+	}
+	
 
 	// SETTERS
  
@@ -194,6 +207,10 @@ class Actions
 		$this->recipient_countrycode=$recipient_countrycode;
 	} 
  
+	public function setRecipientCountrycodeISO($recipient_countrycode_iso){
+		$this->recipient_countrycode_iso=$recipient_countrycode_iso;
+	} 
+
 	public function setRecipientPhonenumber($recipient_phonenumber){
 		$this->recipient_phonenumber=$recipient_phonenumber;
 	} 
@@ -218,6 +235,11 @@ class Actions
 		$this->is_embedded = $is_embedded;
 	}
 
+	public function setDeliveryMode($delivery_mode)
+	{
+		$this->delivery_mode=$delivery_mode;
+	}
+	
 	public function constructJson()
 	{
 		$response["verify_recipient"]=$this->verify_recipient;
@@ -231,13 +253,14 @@ class Actions
 		$response["fields"]= ($this->fields!=NULL) ? $this->fields->constructJson() : NULL ;
 		$response["deleted_fields"]= count($this->deleted_fields)!=0 ? $this->deleted_fields : NULL ;
 		$response["recipient_countrycode"]=$this->recipient_countrycode;
+		$response["recipient_countrycode_iso"]=$this->recipient_countrycode_iso;
 		$response["recipient_phonenumber"]=$this->recipient_phonenumber;
 
 		$response["verification_type"]	= $this->verification_type;
 		$response["verification_code"]	= $this->verification_code;
 		$response["is_embedded"]		= $this->is_embedded;
 		$response["language"] 			= $this->language;
-
+		$response["delivery_mode"]		= $this->delivery_mode;
 		// only for templates
 		$response["role"] 				= $this->role;
 

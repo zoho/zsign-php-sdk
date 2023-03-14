@@ -4,6 +4,7 @@ namespace zsign;
 
 use zsign\OAuth;
 use zsign\ZohoSign;
+use zsign\UpdateOAuth;
 
 abstract class ApiClient{
         
@@ -69,8 +70,8 @@ abstract class ApiClient{
           // ,CURLOPT_VERBOSE   => 1
         )); 
 
-        $fp;
-        $headers;
+       // $fp;
+       // $headers;
         if( $file_response ){
                 $path = ZohoSign::getDownloadPath();
                 $Fname = $path."zs_temp_file";
@@ -100,7 +101,7 @@ abstract class ApiClient{
 
 
         if( $MultipartFormData ){
-            curl_setopt( $curl, CURLOPT_SAFE_UPLOAD, false);
+            curl_setopt( $curl, CURLOPT_SAFE_UPLOAD, true); //CHANGED FALSE TO TRUE
         }
         if( ($method == self::POST || $method == self::PUT || $method == self::DELETE) && !empty($postData) ){
             curl_setopt( $curl, CURLOPT_POSTFIELDS, $postData );
@@ -112,7 +113,7 @@ abstract class ApiClient{
                 
         curl_close($curl); 
 
-        $mediaName;
+        //$mediaName;
         
         $http_code_msg = "HTTP Code : ".$status["http_code"].". ";
 
@@ -180,6 +181,7 @@ abstract class ApiClient{
                     if(  $authorizedCall  ){ // if authorized call and 401, refresh token ..
                         // Access token Expired
                         $resp = ZohoSign::getCurrentUser()->generateAccessTokenUsingRefreshToken();
+                        // UpdateOAuth::updateAccessToken($resp);
                         if( isset($resp) && $retry_attempts==0 ){
                             ++$retry_attempts;
                             return self::makeCall( $URL, $method, $queryparams, $postData, $MultipartFormData, $file_response, $authorizedCall  );

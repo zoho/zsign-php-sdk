@@ -17,13 +17,14 @@ class SignUtil{
 				if( !is_readable($file) && !in_array( pathinfo($file, PATHINFO_EXTENSION), $supportedFormats )  ){
 					return false;
 				}
+				elseif( is_string($file) ){
+					if( !is_readable($file) && !in_array( pathinfo($file, PATHINFO_EXTENSION), $supportedFormats )  ){
+						return false;
+					}
+				}//curlfile support needed
+				return true;
 			}
-		}elseif( is_string($file) ){
-				if( !is_readable($file) && !in_array( pathinfo($file, PATHINFO_EXTENSION), $supportedFormats )  ){
-					return false;
-				}
-		}//curlfile support needed
-		return true;
+		}
 	}
 
 

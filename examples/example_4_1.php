@@ -130,7 +130,7 @@
 		// COMPANY (TEXT FIELD)
 		$partner_company = new TextField();
 		$partner_company->setFieldTypeName 	( TextField::COMPANY );
-		$partner_company->setD ocumentId		( $draftJSON->getDocumentIds() [1] ->getDocumentId() );
+		$partner_company->setDocumentId		( $draftJSON->getDocumentIds() [1] ->getDocumentId() );
 		$partner_company->setFieldName 		( "Company" );
 		$partner_company->setPageNum 		( 0 );
 		$partner_company->setIsMandatory	( true );

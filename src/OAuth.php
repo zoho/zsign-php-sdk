@@ -16,7 +16,9 @@ class OAuth {
 		"eu"	=> "eu",
 		"EU"	=> "eu",
 		"au"	=> "au",
-		"AU" 	=> "au"
+		"AU" 	=> "au",
+		"JP"	=> "jp",
+		"jp"	=> "jp"
 	];
 
 	const CLIENT_ID 	= "CLIENT_ID";
@@ -37,6 +39,7 @@ class OAuth {
 	
 	private $access_token;
 	private $refresh_token;
+	private $expires_in;
 
 	private $currentUser;
 
@@ -111,7 +114,7 @@ class OAuth {
 	}
 
 	public function getRefreshToken(){
-		return $this->$refresh_token;
+		return $this->refresh_token;
 	}
 
 	public function setRefreshToken( $refresh_token ){
@@ -121,8 +124,8 @@ class OAuth {
 	public function generateAccessTokenUsingRefreshToken(){
 
 		$params = array(
-			'refresh_token'		=> $this->refresh_token,
-			'client_id'			=> $this->client_id,
+			'refresh_token'	=> $this->refresh_token,
+			'client_id'		=> $this->client_id,
 			'client_secret' 	=> $this->client_secret,
 			'grant_type'		=> 'refresh_token'
 		);
@@ -136,6 +139,8 @@ class OAuth {
 
 		if( isset($response->data->access_token) ){
 			$this->access_token = $response->data->access_token;
+			$this->expires_in = $response->data->expires_in;
+			UpdateOAuth::updateAccessToken($this->access_token,$this->expires_in);  //New change
 			return $response->data->access_token ;
 		}else{
 			return null;

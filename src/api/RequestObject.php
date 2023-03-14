@@ -29,14 +29,14 @@ class RequestObject
 	private $request_type_id; 
 	private $actions = array(); // Array of class actions 
 	private $deleted_actions = array(); // Array of class deleted_actions 
-
+	private $page_num;
 	//to include
 	private $folder_id;
 	private $self_sign;
 	private $expiration_alert_period;
 	private $bulk_actions;
 	private $is_bulk;
-	// private $bulk_request_id;
+	private $bulk_request_id;
 	// private $field_detect_action;
 	// private $disable_forward;
 	private $custom_data;
@@ -131,6 +131,10 @@ class RequestObject
 		return $this->reminder_period;
 	} 
  
+	public function getRedirectPages(){
+		return $this->redirect_pages; 
+	}
+
 	public function getExpirationDays(){
 		return $this->expiration_days;
 	} 
@@ -179,9 +183,6 @@ class RequestObject
 		return $this->custom_data; 
 	}
 
-	public function getRedirectPages(){
-		return $this->redirect_pages; 
-	}
 
 	public function getOwnerEmail(){
 		return $this->owner_email;
@@ -207,6 +208,7 @@ class RequestObject
 		return $this->modified_time;
 	}
 
+	
 	// Setters	
 
 	public function setRequestId( $request_id ){
@@ -273,7 +275,7 @@ class RequestObject
 		$this->page_num = $page_num ; 
 	}
 
-	public function setExpirationAlertPeriod(){
+	public function setExpirationAlertPeriod($expiration_alert_period){
 		$this->expiration_alert_period = $expiration_alert_period; 
 	}
 
@@ -313,8 +315,6 @@ class RequestObject
 		$response["validity"]=$this->validity;
 		$response["request_type_id"]=$this->request_type_id;
 		$actionsArr = array();
-		// echo '<br>getType'.	gettype($actions);
-		// var_dump($actions);
 		foreach($this->actions as $obj)
 		{
 			array_push($actionsArr,$obj->constructJson());

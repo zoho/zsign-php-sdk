@@ -146,7 +146,7 @@ class CheckBox
 	} 
  
 	public function setFieldId($field_id){
-		$this->field_id=$wfield_id;
+		$this->field_id=$field_id;
 	} 
  
 	public function setX_coord($x_coord){
