@@ -1,5 +1,5 @@
 PHP SDK for ZOHO SIGN
----------------------- 
+----------------------
 This SDK provides wrapper functions for Zoho Sign v1 API's Document Management and Template Management.
 
 You can setup signing workflows using this SDK similar as in Zoho Sign UI.
@@ -13,8 +13,8 @@ Environment Set Up
 ------------------
 PHP SDK is installable through `composer`. Composer is a tool for dependency management in PHP. SDK expects the following from the client app.
 ```
-NOTE : 
-- Client app must have PHP 5.6 or above with  curl  extension enabled. 
+NOTE :
+- Client app must have PHP 5.6 or above with  curl  extension enabled.
 - SDK must be installed into client app though composer
 ```
 
@@ -42,7 +42,7 @@ Install PHP SDK
 Here's how you install the SDK:
 
 1) Navigate to the workspace of your client app
-2) Run the command below: 
+2) Run the command below:
 
 >composer require zoho-sign/php-sdk
 
@@ -79,9 +79,9 @@ It is required to set the OAuth2 credentials of an user as the current user as a
     ZohoSign::setCurrentUser( $user );
 ```
 All subsequent api calls made will be made on behalf of this user
-The First time user permission authenticion/approval is to handled and the oauth credential storage has to be manually handled.
+The First time user permission authentication/approval is to handled and the oauth credential storage has to be manually handled.
 
-You can refresh & store the access_token as 
+You can refresh & store the access_token as
 ```php
  $user->generateAccessTokenUsingRefreshToken();
 ```
@@ -130,40 +130,40 @@ All functions for Document and Template management are available under 'ZohoSign
 
 
  draftRequest()
-    Params: [RequestObject] requestObject, 
-            [array] files 
+    Params: [RequestObject] requestObject,
+            [array] files
     Return: instance of RequestObject
     Throws: SignException
     Description: Uploads the files and draft's a request with the properties.
 
 
  updateRequest()
-    Params: [RequestObject] requestObject, 
-            [array] files 
+    Params: [RequestObject] requestObject,
+            [array] files
     Return: instance of RequestObject
     Throws: SignException
     Description: Uploads the files and draft's a request with the properties.
 
 
  addFilesToRequest()
-    Params: [INT] request_id, 
-            [array] files 
+    Params: [INT] request_id,
+            [array] files
     Return: instance of RequestObject
     Throws: SignException
     Description: Uploads the files to a draft request.
 
- 
+
 submitForSignature()
     Params: [RequestObject] requestObject
     Return: instance of RequestObject
     Throws: SignException
     Description: The requestObject contains a reference for a 'draft' request with fields added
-    The function submits the 'draft' for signature. 
+    The function submits the 'draft' for signature.
 
 
 selfSignRequest()
     Params: [RequestObject] requestObject
-    Return: instance of RequestObject with 
+    Return: instance of RequestObject with
     Throws: SignException
     The requestObject contains a reference for a 'draft' request with fields added
     The function signs the document as the current user.
@@ -171,10 +171,10 @@ selfSignRequest()
 
 
 getRequestList()
-    Params: [KEY NAME] category    (values: ALL, DRAFT, INPROGRESS, RECALLED, COMPLETED, DECLINED, EXPIRED, EXPIRING, MY_REQUESTS, MY_PENDING, SHREDDED), 
-            [INT]      start_index (optional, default:0), 
+    Params: [KEY NAME] category    (values: ALL, DRAFT, INPROGRESS, RECALLED, COMPLETED, DECLINED, EXPIRED, EXPIRING, MY_REQUESTS, MY_PENDING, SHREDDED),
+            [INT]      start_index (optional, default:0),
             [INT]      row_count   (optional, default:100, max:100),
-            [KEY NAME] sort_order  (optional, default:DESC, values : ASC, DESC), 
+            [KEY NAME] sort_order  (optional, default:DESC, values : ASC, DESC),
             [KEY NAME] sort_column (optional, default:action_time, values: action_time, request_name, folder_name, owner_first_name, recipient_email, created_time, modified_time)
     Return: array of instances of RequestObject
     Throws: SignException
@@ -212,7 +212,7 @@ getDownloadPath()
   Params: -
   Return: -
   Throws: -
-  Description: Return the local download directory path set. 
+  Description: Return the local download directory path set.
                 If not set, will default to "$_SERVER['DOCUMENT_ROOT']" path returned by PHP.
 
 
@@ -237,28 +237,28 @@ downloadCompletionCertificate()
   Params: [INT] requrest_id
   Return: true
   Throws: SignException
-  Description: Downloads the completion certificate ONLY for the signing completed request. 
+  Description: Downloads the completion certificate ONLY for the signing completed request.
                Completion Cetrificate PDF will be downloaded to the directory path returned by 'getDownloadPath()' function.
 
 
 
 recallRequest()
   Params: [INT] request_id
-  Return: true 
+  Return: true
   Throws: SignException
   Description: Recalls the request if submitted.
 
 
 remindRequest()
   Params: [INT] request_id
-  Return: true 
+  Return: true
   Throws: SignException
   Description: Sends a reminder to the recipient of the request.
 
 
 deleteRequest()
   Params: [INT] request_id
-  Return: true 
+  Return: true
   Throws: SignException
   Description: Deletes the request. Deleted requests will be available in 'Trash'.
 
@@ -288,14 +288,14 @@ createRequestType()
   Params: [String] name
           [String] desctiption
   Return: instance of RequestType
-  Throws: 
+  Throws:
   Description: Creates a new request type.
 
 
 getFolderList()
   Params: -
   Return: [JSON] array of stdClass
-  Throws: 
+  Throws:
   Description: Retrieves list of folders
 ```
 
@@ -324,7 +324,7 @@ addFilesToTemplate()
   Return: TemplateObject
   Throws: SignException
   Description: Adds files to the template.
-  
+
 
 getTemplate()
   Params: [INT] template_id
@@ -344,9 +344,9 @@ sendTemplate()
 
 
 getTemplatesList()
-    Params: [INT]      start_index (optional, default:0), 
+    Params: [INT]      start_index (optional, default:0),
             [INT]      row_count   (optional, default:100, max:100),
-            [KEY NAME] sort_order  (optional, default:DESC, values : ASC, DESC), 
+            [KEY NAME] sort_order  (optional, default:DESC, values : ASC, DESC),
             [KEY NAME] sort_column (optional, default:action_time, values: action_time, request_name, folder_name, owner_first_name, recipient_email, created_time, modified_time)
     Return: array of instances of TemplateObject
     Throws: SignException
@@ -364,10 +364,10 @@ deleteTemplate()
 
 Exceptions
 ----------
-All functions of class 'ZohoSign' on event of bad/invalid requests to Zoho Sign throws class SignException. 
-The Error message will be formatted like : 
+All functions of class 'ZohoSign' on event of bad/invalid requests to Zoho Sign throws class SignException.
+The Error message will be formatted like :
 > SIGN EXCEPTION : [error code] : error message
- 
+
 
 Examples
 --------
@@ -379,15 +379,15 @@ Below examples are assuming ZohoSign::currentUser is set.
     $reqObj->setRequestName		( 'Partnership Agreement' );
 
     $partner = new Actions();
-    $partner->setRecipientName	( "Will Smith" ); 
-    $partner->setRecipientEmail	( "Willsmith@zylker.com" ); 
-    $partner->setActionType		( Actions::SIGNER ); 
-    $partner->setisEmbedded		( true ); 
+    $partner->setRecipientName	( "Will Smith" );
+    $partner->setRecipientEmail	( "Willsmith@zylker.com" );
+    $partner->setActionType		( Actions::SIGNER );
+    $partner->setisEmbedded		( true );
 
     $reqObj->addAction	( $partner );
 
     $file1 = $_SERVER['DOCUMENT_ROOT']."/Documents/TextTagsAPI.pdf";
-    $files = [ 
+    $files = [
         new CURLfile( $file1 )
     ];
 
@@ -397,15 +397,13 @@ Below examples are assuming ZohoSign::currentUser is set.
 #### Use template to create a request and send for signature
 ```
     $template = ZohoSign::getTemplate( 2000002608137 );
-  
+
     $template->setPrefillBooleanField	( "Premium Partner", true );
     $template->setPrefillTextField ( "Company", "Incredibles Inc" );
     $template->setPrefillDateField ( "Date", "08 July 2020" );
-  
+
     $template->getActionByRole("Partner")->setRecipientName("John");
     $template->getActionByRole("Partner")->setRecipientEmail("john@incredibles.com");
 
     $resp_obj = ZohoSign::sendTemplate( $template, false );
 ```
-
-
