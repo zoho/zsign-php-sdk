@@ -4,6 +4,7 @@ namespace zsign;
 
 use zsign\SignException;
 use zsign\ApiClient;
+use zsign\UpdateOAuth;
 
 class OAuth {
 
@@ -36,7 +37,7 @@ class OAuth {
 	private $scope;
 	private $access_type;
 	private $DC = 'com';
-	
+
 	private $access_token;
 	private $refresh_token;
 	private $expires_in;
@@ -130,7 +131,7 @@ class OAuth {
 			'grant_type'		=> 'refresh_token'
 		);
 
-		$response = ApiClient::callURL( 
+		$response = ApiClient::callURL(
 			'https://accounts.zoho.'.$this->DC.'/oauth/v2/token', // URL
 			ApiClient::POST, 							// METHOD
 			$params,									// PARAMS
@@ -140,12 +141,12 @@ class OAuth {
 		if( isset($response->data->access_token) ){
 			$this->access_token = $response->data->access_token;
 			$this->expires_in = $response->data->expires_in;
-			UpdateOAuth::updateAccessToken($this->access_token,$this->expires_in);  //New change
+			//UpdateOAuth::updateAccessToken($this->access_token,$this->expires_in);
 			return $response->data->access_token ;
 		}else{
 			return null;
 		}
-		
+
 	}
 
 }
