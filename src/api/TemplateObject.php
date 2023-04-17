@@ -55,7 +55,7 @@ class TemplateObject
 	private $field_boolean_data;
 	private $field_date_data;
 	// private $field_image_data;
-	// private $field_radio_data;
+	private $field_radio_data;
 
 	function __construct($response=null)
 	{
@@ -112,8 +112,8 @@ class TemplateObject
 			$this->field_text_data 		= array();
 			$this->field_boolean_data	= array();
 			$this->field_date_data		= array();
+			$this->field_radio_data		= array();
 			// $this->field_image_data		= array();
-			// $this->field_radio_data		= array();
 
 		$this->document_fields 		= array();
 
@@ -135,6 +135,10 @@ class TemplateObject
 						case "datefield":
 							$this->field_date_data   [ $field["field_label"] ]	= new PrefillField($field) ;
 							break;
+						case "radiogroup":
+							$this->field_radio_data   [ $field["field_label"] ]	= new PrefillField($field) ;
+							break;
+								
 							
 					}
 				}
@@ -378,13 +382,17 @@ class TemplateObject
 			return $this->field_date_data[$field_label];
 		}
 	}
+	
+	public function getFieldRadioData($field_label=null){
+		if( $field_label==null ){
+			return $this->field_radio_data;
+		}else{
+			return $this->field_radio_data[$field_label];
+		}
+	}
 	/*
 	public function getFieldImageData(){
 		return $this->field_image_data;
-	}
-
-	public function getFieldRadioData(){
-		return $this->field_radio_data;
 	}
 	*/
 
@@ -401,6 +409,9 @@ class TemplateObject
 		$this->field_date_data 		[ $label ]=($value) ;
 	}
 
+	public function setPrefillRadioField( $label, $value ){
+		$this->field_radio_data [ $label ]=($value) ;
+	}
 	
 	/// ------------ ACTION DATA MANIPULATION FUNCITONS ------------
 	public function getActionByRole( $role ){
@@ -467,12 +478,17 @@ class TemplateObject
 		foreach ($this->field_date_data as  $label=>$value) {
 			$field_date_data_Obj[  $label  ] 		= $value;
 		}
+
+		$field_radio_data_Obj = array();
+		foreach ($this->field_radio_data as  $label=>$value) {
+			$field_radio_data_Obj[  $label  ] 		= $value;
+		}
 		
 		$field_data= new \stdClass();   //new add
 		$field_data->field_text_data 	= (count($field_text_data_Obj) == 0) ? new \stdClass() : $field_text_data_Obj;
 		$field_data->field_boolean_data = (count($field_boolean_data_Obj)==0)? new \stdClass() : $field_boolean_data_Obj;
-		$field_data->field_date_data 	= (count($field_date_data_Obj)==0) ?   new \stdClass() : $field_date_data_Obj;	
-
+		$field_data->field_date_data 	= (count($field_date_data_Obj)==0) ?   new \stdClass() : $field_date_data_Obj;		
+		$field_data->field_radio_data 	= (count($field_radio_data_Obj)==0) ?   new \stdClass() : $field_radio_data_Obj;
 
 
 		$actionsArr = array();

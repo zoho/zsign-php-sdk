@@ -50,6 +50,9 @@
 		$template->setPrefillTextField		( "Full name",	"Hagrid R" );
 		$template->setPrefillBooleanField	( "Agree ?", 	true );
 		$template->setPrefillDateField		( "Date - 1",	"08 July 2020" );
+		$template->setPrefillTextField		( "Dropdown - 1",	"php" );
+		$template->setPrefillBooleanField	( "Checkbox - 1", 	true );
+		$template->setPrefillRadioField	( "Radiogroup - 1","Radio3" );
 	
 		$template->getActionByRole("Partner")->setRecipientName("Hagrid R");
 		$template->getActionByRole("Partner")->setRecipientEmail("hagrid@hogwcorp.com");

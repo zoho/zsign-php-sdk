@@ -26,13 +26,13 @@ class PrefillField{
 			case "checkbox":
 			case "textfield":
 			case "datefield":
+			case "radiogroup":
 				// allowed field types
 				break;
 
 			case "image":
 				throw new SignException('Image fields are autofilled from Zoho Sign Profile Settings', -1);
 			case "filefield":
-			case "radiogroup":
 			default:
 				throw new SignException('Invalid PREFILL-FIELD type', -1);
 
