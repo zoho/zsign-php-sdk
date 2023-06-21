@@ -226,13 +226,13 @@ abstract class ApiClient{
         }
     }
 
-    private function constructErrorMessageFromAPIResponse( $response ){
+    private static function constructErrorMessageFromAPIResponse( $response ){
         
         // it is possible there are more keys than basic ones.
 
         $errorMessage = "";
 
-        $responseArr = json_decode( json_encode($response), false );        
+        $responseArr = json_decode( json_encode($response), true );        
 
         $errorMessage = $response->message;
         
