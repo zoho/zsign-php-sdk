@@ -781,6 +781,17 @@ abstract class ZohoSign{
 		return new TemplateObject( $response->templates );
 	}
 
+	public static function getMergeTemplate( $templateIds ) {
+		$response = ApiClient::callSignAPI(
+			"/api/v1/templates/mergeview",
+			ApiClient::POST,						
+			null,
+			[ 'template_ids' => json_encode( $templateIds ) ]
+		);
+
+		return new TemplateObject( $response->templates );
+	}
+
 	public static function sendTemplate( $templateObj, $quick_send=true ){
 		
 		$templateId   = $templateObj->getTemplateId();
@@ -799,6 +810,33 @@ abstract class ZohoSign{
 
 		$response = ApiClient::callSignAPI(
 			"/api/v1/templates/$templateId/createdocument", 	// api
+			ApiClient::POST, 									// post
+			null, 												// queryparams
+			$payload 											// post data
+		);
+
+		return new RequestObject ( $response->requests  );
+	}
+
+	public static function mergeSend( $templateObj, $quick_send=true, $template_ids=array() ){
+		
+		$templateId   = $templateObj->getTemplateId();
+
+		if( !isset($templateId) ){
+			throw new SignException("Template Id not set", -1);
+		}
+
+		$data["templates"] = $templateObj->constructJsonForSubmit();
+
+		$payload = array( 
+			"data" 			=> json_encode( $data ),
+			"is_quicksend"	=> $quick_send ? 'true' : 'false' ,
+			"template_ids"	=> json_encode( $template_ids ),
+			"testing"	=>	self::$testing?'true':'false',
+		);
+
+		$response = ApiClient::callSignAPI(
+			"/api/v1/templates/mergesend", 	// api
 			ApiClient::POST, 									// post
 			null, 												// queryparams
 			$payload 											// post data

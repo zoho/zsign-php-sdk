@@ -1,4 +1,5 @@
 PHP SDK for ZOHO SIGN
+(forked to add mergesend api endpoint)
 ----------------------
 This SDK provides wrapper functions for Zoho Sign v1 API's Document Management and Template Management.
 

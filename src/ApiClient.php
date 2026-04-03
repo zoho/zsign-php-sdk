@@ -227,33 +227,7 @@ abstract class ApiClient{
     }
 
     private static function constructErrorMessageFromAPIResponse( $response ){
-        
-        // it is possible there are more keys than basic ones.
-
-        $errorMessage = "";
-
-        $responseArr = json_decode( json_encode($response), true );        
-
-        $errorMessage = $response->message;
-        
-        if( count( $responseArr ) <= 3 ){
-            // not code, message, status
-            // more keys are present, like error_param : error_key
-            $errorMessage = $response->message.". " ;
-
-            foreach ( $responseArr as $key => $value) {
-                switch ($key) {
-                    case 'code':
-                    case 'message':
-                    case 'status':
-                        break;
-                    default:
-                        $errorMessage .= "$key : $value. ";
-                        break;
-                }
-            }
-        }
-        return $errorMessage;
+        return json_encode( $response, JSON_PRETTY_PRINT );
     }
 
 }

@@ -239,8 +239,36 @@ class Fields
  
 	public function setRadioGroups($radio_groups){
 		$this->radio_groups = $radio_groups;
-	} 
- 
+	}
+
+	public function trimNumber( $number, $max = 10 ) {
+		$str = (string) $number;
+		if ( strlen( $str ) > $max ) {
+			$str = substr( $str, 0, $max );
+		}
+		if ( str_ends_with( $str, '.') ) {
+			$str = substr( $str, 0, -1 );
+		}
+		return $str;
+	}
+
+	public function sanitizeOutput( $output ) {
+		foreach ( $output as $field_group => $fields ) {
+			foreach ( $fields as $index => $field ) {
+				// trim numbers down to under 10 digits (otherwise Zoho Sign will reject the request)
+				if ( isset( $field['x_value'] ) )    $output[ $field_group ][ $index ]['x_value']    = $this->trimNumber( $field['x_value'] );
+				if ( isset( $field['y_value'] ) )    $output[ $field_group ][ $index ]['y_value']    = $this->trimNumber( $field['y_value'] );
+				if ( isset( $field['width'] ) )      $output[ $field_group ][ $index ]['width']      = $this->trimNumber( $field['width'] );
+				if ( isset( $field['height'] ) )     $output[ $field_group ][ $index ]['height']     = $this->trimNumber( $field['height'] );
+				if ( isset( $field['x_coord'] ) )    $output[ $field_group ][ $index ]['x_coord']    = (int) $field['x_coord'];
+				if ( isset( $field['y_coord'] ) )    $output[ $field_group ][ $index ]['y_coord']    = (int) $field['y_coord'];
+				if ( isset( $field['abs_width'] ) )  $output[ $field_group ][ $index ]['abs_width']  = (int) $field['abs_width'];
+				if ( isset( $field['abs_height'] ) ) $output[ $field_group ][ $index ]['abs_height'] = (int) $field['abs_height'];
+			}
+		}
+
+		return $output;
+	}
  
 	public function constructJson()
 	{
@@ -299,8 +327,9 @@ class Fields
 		}
 		$response["radio_groups"]= count($radio_groupsArr)!=0 ? $radio_groupsArr : NULL ;		
 		
+		$output = array_filter( $response, function($v) { return !is_null($v); } );
 
-		return array_filter( $response, function($v) { return !is_null($v); } );
+		return $this->sanitizeOutput( $output );
 	}
 }
 ?>
